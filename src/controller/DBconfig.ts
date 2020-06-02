@@ -1,0 +1,5 @@
+export const user = 'root'
+export const password = '12345678'
+export const host = '127.0.0.1'
+export const database = 'sys'
+export const dbClient = 'mysql'

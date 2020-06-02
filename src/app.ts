@@ -1,11 +1,14 @@
 import Koa, { ParameterizedContext } from 'koa'
-// import router from './router'
+import router from './router/index'
+import db from './controller/connectDB'
+// import requestMiddelware from './middlware/request'
 import logger from 'koa-logger'
 import dotenv from 'dotenv'
-
 dotenv.config()
 
 const app = new Koa()
+
+app.context.db = db
 
 app.use(logger())
 
@@ -24,6 +27,11 @@ app.use(async (ctx, next) => {
         console.log(`method: ${ctx.method}, url: ${ctx.url} - ${ms}ms`)
     }
 })
+
+app
+    .use(router.routes())
+    .use(router.allowedMethods())
+
 
 app.listen(process.env.PORT, ()=> {
     console.log(`Server running on http://localhost:${process.env.PORT || 3000}`)
